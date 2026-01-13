@@ -1,0 +1,47 @@
+package com.fabio.main;
+
+import com.fabio.dao.PizzeriaDAO;
+import com.fabio.model.Utente;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+
+import java.io.IOException;
+
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
+
+    private PizzeriaDAO dao = new PizzeriaDAO();
+
+    // MOSTRA login.jsp
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
+    }
+
+    // GESTIONE LOGIN
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+
+        Utente utente = dao.login(username, password);
+
+        // LOGIN FALLITO
+        if (utente != null) {
+        	// LOGIN OK  CREO SESSIONE
+            HttpSession session = req.getSession(true);
+            session.setAttribute("user", utente);
+
+            // REDIRECT ALLA DASHBOARD
+            resp.sendRedirect("dashboard");
+        } else {
+        	req.setAttribute("error", "Credenziali errate!");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+        }
+    }
+}
