@@ -7,7 +7,7 @@ import com.fabio.service.Service;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 

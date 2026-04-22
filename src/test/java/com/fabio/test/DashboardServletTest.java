@@ -3,7 +3,7 @@ package com.fabio.test;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
-import javax.servlet.http.*;
+import jakarta.servlet.http.*;
 
 import com.fabio.main.DashboardServlet;
 import com.fabio.dao.PizzeriaDAO;

@@ -1,6 +1,0 @@
-projectKey=com.fabio.example:EsercizioPizzeria
-serverUrl=http://localhost:9000
-serverVersion=26.4.0.121862
-dashboardUrl=http://localhost:9000/dashboard?id=com.fabio.example%3AEsercizioPizzeria
-ceTaskId=76e12021-e8ef-44a9-87b3-76cef54edfd1
-ceTaskUrl=http://localhost:9000/api/ce/task?id=76e12021-e8ef-44a9-87b3-76cef54edfd1

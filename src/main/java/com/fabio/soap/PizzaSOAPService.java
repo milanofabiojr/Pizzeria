@@ -3,8 +3,8 @@ package com.fabio.soap;
 import com.fabio.dao.PizzeriaDAO;
 import com.fabio.model.Pizza;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 public class PizzaSOAPService {

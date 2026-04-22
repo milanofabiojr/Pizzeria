@@ -6,10 +6,10 @@ import com.fabio.model.Pizza;
 import com.fabio.model.Utente;
 import com.fabio.util.JPAUtil;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
 import java.sql.SQLException;
 import java.util.List;
