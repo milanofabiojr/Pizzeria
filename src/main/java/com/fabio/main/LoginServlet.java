@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
 
     // GESTIONE LOGIN
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         String username = req.getParameter("username");

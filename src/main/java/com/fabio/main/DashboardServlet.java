@@ -17,7 +17,7 @@ public class DashboardServlet extends HttpServlet {
 
     // MOSTRA DASHBOARD
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
@@ -44,7 +44,7 @@ public class DashboardServlet extends HttpServlet {
 
     // CREA PIZZA E DELETE PIZZA
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);

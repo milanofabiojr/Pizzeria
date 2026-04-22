@@ -1,0 +1,10 @@
+com\fabio\model\Impasto.class
+com\fabio\main\DashboardServlet.class
+com\fabio\soap\PizzaSOAPService.class
+com\fabio\service\Service.class
+com\fabio\model\Utente.class
+com\fabio\dao\PizzeriaDAO.class
+com\fabio\main\LoginServlet.class
+com\fabio\model\Ingrediente.class
+com\fabio\model\Pizza.class
+com\fabio\util\JPAUtil.class
