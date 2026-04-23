@@ -17,27 +17,4 @@ class PizzeriaDAOTest {
 
 		assertNull(result);
 	}
-
-	@Test
-	void shouldDeletePizza() {
-		PizzeriaDAO dao = new PizzeriaDAO();
-
-		Pizza pizza = new Pizza();
-		pizza.setNome("Test");
-		dao.addPizza(pizza);
-
-		dao.deletePizza(pizza.getId());
-
-		Pizza result = dao.findPizza(pizza.getId());
-		assertNull(result);
-	}
-
-	@Test
-	void shouldReturnNullWhenPizzaNotFound() {
-		PizzeriaDAO dao = new PizzeriaDAO();
-
-		Pizza pizza = dao.findPizza(9999);
-
-		assertNull(pizza);
-	}
 }

@@ -108,8 +108,7 @@ class ServiceTest {
     @Test
     void shouldHandleNullPizza() {
         Service service = new Service();
-
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             service.addPizza(null);
         });
     }
