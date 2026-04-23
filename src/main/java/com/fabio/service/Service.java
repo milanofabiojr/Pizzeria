@@ -35,7 +35,7 @@ public class Service {
 	@Path("/utenti")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<Utente> getUtenti_JSON(){
-		List<Utente> utenti = PizzeriaDAO.getAllUtenti();
+		List<Utente> utenti = dao.getAllUtenti();
 		return utenti;
 	}
 	

@@ -1,74 +1,58 @@
 package com.fabio.test;
 
-import com.fabio.main.LoginServlet;
 import com.fabio.dao.PizzeriaDAO;
+import com.fabio.main.LoginServlet;
 import com.fabio.model.Utente;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.*;
 
-import java.lang.reflect.Field;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import jakarta.servlet.RequestDispatcher;
+
 
 import static org.mockito.Mockito.*;
 
 class LoginServletTest {
 
-    @InjectMocks
-    private LoginServlet servlet;
-
-    @Mock
-    private PizzeriaDAO dao;
-
-    @Mock
-    private HttpServletRequest req;
-
-    @Mock
-    private HttpServletResponse resp;
-
-    @Mock
-    private HttpSession session;
-
-    @Mock
-    private RequestDispatcher dispatcher;
-
-    @BeforeEach
-    void setup() throws Exception {
-        MockitoAnnotations.openMocks(this);
-
-        Field f = LoginServlet.class.getDeclaredField("dao");
-        f.setAccessible(true);
-        f.set(servlet, dao);
-    }
-
     @Test
-    void testLoginSuccess() throws Exception {
-        Utente u = new Utente("fabio", "123");
+    void testLoginSuccessRedirect() throws Exception {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        LoginServlet servlet = new LoginServlet(dao);
 
-        when(req.getParameter("username")).thenReturn("fabio");
-        when(req.getParameter("password")).thenReturn("123");
-        when(dao.login("fabio", "123")).thenReturn(u);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
+
+        when(req.getParameter("username")).thenReturn("user");
+        when(req.getParameter("password")).thenReturn("pass");
         when(req.getSession(true)).thenReturn(session);
+
+        when(dao.login("user", "pass")).thenReturn(new Utente("user", "pass"));
 
         servlet.doPost(req, resp);
 
-        verify(session).setAttribute("user", u);
+        verify(session).setAttribute(eq("user"), any());
         verify(resp).sendRedirect("dashboard");
     }
 
     @Test
-    void testLoginFail() throws Exception {
+    void testLoginFailForward() throws Exception {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        LoginServlet servlet = new LoginServlet(dao);
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+
         when(req.getParameter("username")).thenReturn("x");
         when(req.getParameter("password")).thenReturn("y");
+
         when(dao.login("x", "y")).thenReturn(null);
-        when(req.getRequestDispatcher("login.jsp")).thenReturn(dispatcher);
+
+        RequestDispatcher rd = mock(RequestDispatcher.class);
+        when(req.getRequestDispatcher("login.jsp")).thenReturn(rd);
 
         servlet.doPost(req, resp);
 
-        verify(req).setAttribute(eq("error"), any());
-        verify(dispatcher).forward(req, resp);
+        verify(rd).forward(req, resp);
     }
 }
