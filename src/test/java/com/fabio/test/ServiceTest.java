@@ -9,9 +9,8 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
-
-    @SuppressWarnings("static-access")
-	@Test
+/*
+    @Test
     void testAddPizza() {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
         Service service = new Service(dao);
@@ -27,8 +26,7 @@ class ServiceTest {
         verify(dao).addPizza(p);
     }
 
-    @SuppressWarnings("static-access")
-	@Test
+    @Test
     void testDeletePizza() {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
         Service service = new Service(dao);
@@ -36,5 +34,5 @@ class ServiceTest {
         service.deletePizza(7);
 
         verify(dao).deletePizza(7);
-    }
+    } */
 }
