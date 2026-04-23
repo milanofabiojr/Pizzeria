@@ -21,6 +21,16 @@ import com.fabio.model.Pizza;
 @Path("/service")
 public class Service {
 	
+	private PizzeriaDAO dao;
+	
+	public Service() {
+        this.dao = new PizzeriaDAO();
+    }
+
+    public Service(PizzeriaDAO dao) {
+        this.dao = dao;
+    }
+	
 	@GET
 	@Path("/utenti")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -33,7 +43,7 @@ public class Service {
 	@Path("/impasti")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<Impasto> getImpasti_JSON(){
-		List<Impasto> impasti = PizzeriaDAO.findAllImpasti();
+		List<Impasto> impasti = dao.findAllImpasti();
 		return impasti;
 	}
 	
@@ -41,7 +51,7 @@ public class Service {
 	@Path("/ingredienti")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<Ingrediente> getIngredienti_JSON(){
-		List<Ingrediente> ingredienti = PizzeriaDAO.findAllIngredienti();
+		List<Ingrediente> ingredienti = dao.findAllIngredienti();
 		return ingredienti;
 	}
 	
@@ -49,21 +59,21 @@ public class Service {
 	@Path("/pizze")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<Pizza> getPizze_JSON(){
-		List<Pizza> pizze = PizzeriaDAO.findAllPizze();
+		List<Pizza> pizze = dao.findAllPizze();
 		return pizze;
 	}
 	
 	@POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Pizza addPizza(Pizza p) {
-        return PizzeriaDAO.addPizza(p);
+        return dao.addPizza(p);
     }
 	
 	@PUT
 	@Path("/{id}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response updatePizza(@PathParam("id") int id, Pizza nuovap) {
-		Pizza p = PizzeriaDAO.findPizza(id);
+		Pizza p = dao.findPizza(id);
 		if (p == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -71,7 +81,7 @@ public class Service {
         p.setNome(nuovap.getNome());
         p.setImpasto(nuovap.getImpasto());
         p.setIngredienti(nuovap.getIngredienti());
-        PizzeriaDAO.updatePizza(p);
+        dao.updatePizza(p);
         return Response.ok().build();
     }
 	
@@ -79,6 +89,6 @@ public class Service {
     @Path("/{id}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public void deletePizza(@PathParam("id") int id) {
-       PizzeriaDAO.deletePizza(id);
+       dao.deletePizza(id);
     }
 }

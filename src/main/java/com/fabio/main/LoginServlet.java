@@ -11,7 +11,15 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private PizzeriaDAO dao = new PizzeriaDAO();
+    private PizzeriaDAO dao;
+
+    public LoginServlet() {
+        this.dao = new PizzeriaDAO();
+    }
+
+    public LoginServlet(PizzeriaDAO dao) {
+        this.dao = dao;
+    }
 
     // MOSTRA login.jsp
     @Override

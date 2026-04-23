@@ -13,7 +13,15 @@ import java.util.List;
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
-    private PizzeriaDAO dao = new PizzeriaDAO();
+    private PizzeriaDAO dao;
+    
+    public DashboardServlet() {
+        this.dao = new PizzeriaDAO();
+    }
+
+    public DashboardServlet(PizzeriaDAO dao) {
+        this.dao = dao;
+    }
 
     // MOSTRA DASHBOARD
     @Override

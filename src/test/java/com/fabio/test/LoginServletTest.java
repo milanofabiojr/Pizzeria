@@ -38,4 +38,24 @@ class LoginServletTest {
 		verify(resp).sendRedirect("dashboard");
 		verify(session).setAttribute(eq("user"), any());
 	}
+	
+	@Test
+    void testLoginFail() throws Exception {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        LoginServlet servlet = new LoginServlet(dao);
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
+
+        when(req.getParameter("username")).thenReturn("wrong");
+        when(req.getParameter("password")).thenReturn("wrong");
+        when(dao.login(any(), any())).thenReturn(null);
+        when(req.getRequestDispatcher("login.jsp")).thenReturn(dispatcher);
+
+        servlet.doPost(req, resp);
+
+        verify(req).setAttribute(eq("error"), any());
+        verify(dispatcher).forward(req, resp);
+    }
 }
