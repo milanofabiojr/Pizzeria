@@ -140,4 +140,20 @@ class PizzeriaDAOTest {
             verify(tx).begin();
             verify(tx).commit();
     }
+    
+    @Test
+    void testFindAllPizze() {
+
+        TypedQuery query = mock(TypedQuery.class);
+
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
+
+            when(em.createQuery(anyString(), eq(Pizza.class))).thenReturn(query);
+            when(query.getResultList()).thenReturn(List.of());
+
+            List<Pizza> result = dao.findAllPizze();
+
+            assertNotNull(result);
+    }
 }
