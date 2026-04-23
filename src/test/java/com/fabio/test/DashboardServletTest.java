@@ -109,4 +109,23 @@ class DashboardServletTest {
 
         verify(resp).sendRedirect(anyString());
     }
+    
+    @Test
+    void testDashboardValidationFail() throws Exception {
+
+        DashboardServlet servlet = new DashboardServlet(mock(PizzeriaDAO.class));
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
+
+        when(req.getSession(false)).thenReturn(session);
+
+        when(req.getParameter("nomePizza")).thenReturn("");
+        when(req.getParameter("impasto")).thenReturn(null);
+
+        servlet.doPost(req, resp);
+
+        verify(resp).sendRedirect(anyString());
+    }
 }
