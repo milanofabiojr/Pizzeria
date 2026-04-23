@@ -128,4 +128,22 @@ class DashboardServletTest {
 
         verify(resp).sendRedirect(anyString());
     }
+    
+    @Test
+    void testDashboardUserNull() throws Exception {
+
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        DashboardServlet servlet = new DashboardServlet(dao);
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
+
+        when(req.getSession(false)).thenReturn(session);
+        when(session.getAttribute("user")).thenReturn(null);
+
+        servlet.doGet(req, resp);
+
+        verify(resp).sendRedirect(anyString());
+    }
 }
