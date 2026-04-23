@@ -172,4 +172,20 @@ class PizzeriaDAOTest {
 
             verify(em, never()).remove(any());
     }
+    
+    @Test
+    void testUpdatePizzaNull() {
+
+
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
+            when(em.getTransaction()).thenReturn(tx);
+
+            Pizza p = new Pizza();
+            dao.updatePizza(p);
+
+            verify(em).merge(p);
+            verify(tx).begin();
+            verify(tx).commit();
+    }
 }
