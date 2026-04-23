@@ -30,12 +30,12 @@ class DashboardServletTest {
 
         when(req.getSession(false)).thenReturn(session);
         when(session.getAttribute("user")).thenReturn(u);
+        
+        when(req.getRequestDispatcher("dashboard.jsp")).thenReturn(rd);
 
         when(dao.findAllImpasti()).thenReturn(List.of());
         when(dao.findAllIngredienti()).thenReturn(List.of());
         when(dao.findAllbyUtenteId(1)).thenReturn(List.of());
-
-        when(req.getRequestDispatcher("dashboard.jsp")).thenReturn(rd);
 
         servlet.doGet(req, resp);
 
