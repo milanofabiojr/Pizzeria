@@ -94,15 +94,8 @@ class PizzeriaDAOTest {
     
     @Test
     void testFindPizza() {
-        PizzeriaDAO dao = new PizzeriaDAO();
 
         Pizza p = new Pizza();
-
-        EntityManager em = mock(EntityManager.class);
-
-        try (MockedStatic<JPAUtil> mocked = mockStatic(JPAUtil.class)) {
-
-            EntityManagerFactory emf = mock(EntityManagerFactory.class);
 
             mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
             when(emf.createEntityManager()).thenReturn(em);
@@ -112,6 +105,5 @@ class PizzeriaDAOTest {
             Pizza result = dao.findPizza(1);
 
             assertNotNull(result);
-        }
     }
 }
