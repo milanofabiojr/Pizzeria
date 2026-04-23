@@ -156,4 +156,20 @@ class PizzeriaDAOTest {
 
             assertNotNull(result);
     }
+    
+    @Test
+    void testDeletePizzaNull() {
+
+
+        Pizza p = null;
+
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
+
+            when(em.find(Pizza.class, 1)).thenReturn(null);
+
+            dao.deletePizza(1);
+
+            verify(em, never()).remove(any());
+    }
 }
