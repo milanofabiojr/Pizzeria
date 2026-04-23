@@ -94,4 +94,19 @@ class DashboardServletTest {
 
         verify(dao).save(any());
     }
+    
+    @Test
+    void testDashboardSessionNull() throws Exception {
+
+        DashboardServlet servlet = new DashboardServlet(mock(PizzeriaDAO.class));
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+
+        when(req.getSession(false)).thenReturn(null);
+
+        servlet.doPost(req, resp);
+
+        verify(resp).sendRedirect(anyString());
+    }
 }
