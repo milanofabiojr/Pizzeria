@@ -36,7 +36,7 @@ class DashboardServletTest {
         session = mock(HttpSession.class);
         dispatcher = mock(RequestDispatcher.class);
 
-        servlet = new DashboardServlet();
+        servlet = new DashboardServlet(dao);
 
         // 🔥 injection DAO mock
         Field field = DashboardServlet.class.getDeclaredField("dao");
