@@ -31,8 +31,8 @@ class ServiceTest {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
         Service service = new Service(dao);
 
-        service.deletePizza(1);
+        service.deletePizza(7);
 
-        verify(dao).deletePizza(1);
+        verify(dao).deletePizza(7);
     }
 }
