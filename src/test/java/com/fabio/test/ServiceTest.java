@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
 
-    @Test
+    @SuppressWarnings("static-access")
+	@Test
     void testAddPizza() {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
         Service service = new Service(dao);
@@ -26,7 +27,8 @@ class ServiceTest {
         verify(dao).addPizza(p);
     }
 
-    @Test
+    @SuppressWarnings("static-access")
+	@Test
     void testDeletePizza() {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
         Service service = new Service(dao);
