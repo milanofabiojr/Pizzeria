@@ -8,6 +8,8 @@ import jakarta.servlet.http.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import jakarta.servlet.RequestDispatcher;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 import static org.mockito.Mockito.*;
 
@@ -99,5 +101,13 @@ class LoginServletTest {
 		servlet.doPost(req, resp);
 
 		verify(rd).forward(req, resp);
+	}
+	
+	@Test
+	void testLoginServletDefaultConstructor() {
+
+	    LoginServlet servlet = new LoginServlet();
+
+	    assertNotNull(servlet);
 	}
 }
