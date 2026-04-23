@@ -9,7 +9,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
-/*
+
     @Test
     void testAddPizza() {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
@@ -31,8 +31,8 @@ class ServiceTest {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
         Service service = new Service(dao);
 
-        service.deletePizza(7);
+        service.deletePizza(1);
 
-        verify(dao).deletePizza(7);
-    } */
+        verify(dao).deletePizza(1);
+    }
 }

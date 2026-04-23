@@ -14,7 +14,6 @@ import jakarta.servlet.RequestDispatcher;
 import static org.mockito.Mockito.*;
 
 class DashboardServletTest {
-/*
     @Test
     void testDoGetLoggedUser() throws Exception {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
@@ -41,7 +40,7 @@ class DashboardServletTest {
 
         verify(rd).forward(req, resp);
     }
-    */
+
 
     @Test
     void testDoGetNotLoggedRedirect() throws Exception {

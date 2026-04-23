@@ -58,7 +58,7 @@ public class PizzeriaDAO {
         em.close();
     }
     
-    public static Pizza addPizza(Pizza pizza) {
+    public Pizza addPizza(Pizza pizza) {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         em.persist(pizza);
@@ -75,7 +75,7 @@ public class PizzeriaDAO {
         em.close();
     }
     
-    public static Pizza updatePizza(Pizza p) {
+    public Pizza updatePizza(Pizza p) {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         em.merge(p);
@@ -95,7 +95,7 @@ public class PizzeriaDAO {
         em.close();
     }
     
-    public static void deletePizza(int id) {
+    public void deletePizza(int id) {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         Pizza p = em.find(Pizza.class, id);
@@ -106,22 +106,22 @@ public class PizzeriaDAO {
         em.close();
     }
     
-    public static Pizza findPizza(int id) {
+    public Pizza findPizza(int id) {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         return em.find(Pizza.class, id);
     }
 
-    public static List<Impasto> findAllImpasti() {
+    public List<Impasto> findAllImpasti() {
     	EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         return em.createQuery("SELECT i FROM Impasto i", Impasto.class).getResultList();
     }
     
-    public static List<Pizza> findAllPizze() {
+    public List<Pizza> findAllPizze() {
     	EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         return em.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList();
     }
 
-    public static List<Ingrediente> findAllIngredienti() {
+    public List<Ingrediente> findAllIngredienti() {
     	EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         return em.createQuery("SELECT i FROM Ingrediente i", Ingrediente.class).getResultList();
     }
