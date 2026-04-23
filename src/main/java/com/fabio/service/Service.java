@@ -22,6 +22,10 @@ import com.fabio.model.Pizza;
 public class Service {
 	
 	private PizzeriaDAO dao;
+	
+	public Service() {
+	    this.dao = new PizzeriaDAO();
+	}
 
     public Service(PizzeriaDAO dao) {
         this.dao = dao;

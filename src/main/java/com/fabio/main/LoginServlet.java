@@ -12,6 +12,10 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     private PizzeriaDAO dao;
+    
+    public LoginServlet() {
+        this.dao = new PizzeriaDAO();
+    }
 
     public LoginServlet(PizzeriaDAO dao) {
         this.dao = dao;

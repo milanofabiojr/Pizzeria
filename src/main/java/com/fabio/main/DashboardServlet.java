@@ -14,6 +14,10 @@ import java.util.List;
 public class DashboardServlet extends HttpServlet {
 
     private PizzeriaDAO dao;
+    
+    public DashboardServlet() {
+        this.dao = new PizzeriaDAO();
+    }
 
     public DashboardServlet(PizzeriaDAO dao) {
         this.dao = dao;
