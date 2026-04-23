@@ -104,4 +104,13 @@ class ServiceTest {
             mockedDAO.verify(() -> PizzeriaDAO.deletePizza(1), times(1));
         }
     }
+    
+    @Test
+    void shouldHandleNullPizza() {
+        Service service = new Service();
+
+        assertThrows(NullPointerException.class, () -> {
+            service.addPizza(null);
+        });
+    }
 }

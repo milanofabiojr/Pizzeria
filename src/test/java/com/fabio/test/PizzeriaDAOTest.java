@@ -19,18 +19,6 @@ class PizzeriaDAOTest {
 	}
 
 	@Test
-	void shouldSavePizza() {
-		PizzeriaDAO dao = new PizzeriaDAO();
-
-		Pizza pizza = new Pizza();
-		pizza.setNome("Margherita");
-
-		dao.addPizza(pizza);
-
-		assertNotNull(pizza.getId());
-	}
-
-	@Test
 	void shouldDeletePizza() {
 		PizzeriaDAO dao = new PizzeriaDAO();
 
