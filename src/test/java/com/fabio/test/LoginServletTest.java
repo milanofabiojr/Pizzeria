@@ -100,4 +100,26 @@ class LoginServletTest {
 
 		verify(rd).forward(req, resp);
 	}
+	
+	@Test
+	void testLoginNullInput() throws Exception {
+
+	    PizzeriaDAO dao = mock(PizzeriaDAO.class);
+	    LoginServlet servlet = new LoginServlet(dao);
+
+	    HttpServletRequest req = mock(HttpServletRequest.class);
+	    HttpServletResponse resp = mock(HttpServletResponse.class);
+	    RequestDispatcher rd = mock(RequestDispatcher.class);
+
+	    when(req.getParameter("username")).thenReturn(null);
+	    when(req.getParameter("password")).thenReturn(null);
+
+	    when(dao.login(null, null)).thenReturn(null);
+
+	    when(req.getRequestDispatcher("login.jsp")).thenReturn(rd);
+
+	    servlet.doPost(req, resp);
+
+	    verify(rd).forward(req, resp);
+	}
 }
