@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import jakarta.servlet.RequestDispatcher;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 
 import static org.mockito.Mockito.*;
@@ -145,5 +147,13 @@ class DashboardServletTest {
         servlet.doGet(req, resp);
 
         verify(resp).sendRedirect(anyString());
+    }
+    
+    @Test
+    void testDashboardServletDefaultConstructor() {
+
+        DashboardServlet servlet = new DashboardServlet();
+
+        assertNotNull(servlet);
     }
 }

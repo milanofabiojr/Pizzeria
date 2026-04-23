@@ -35,4 +35,12 @@ class ServiceTest {
 
         verify(dao).deletePizza(1);
     }
+    
+    @Test
+    void testDashboardServletDefaultConstructor() {
+
+        Service servlet = new Service();
+
+        assertNotNull(servlet);
+    }
 }
