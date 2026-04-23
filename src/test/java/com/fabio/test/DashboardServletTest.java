@@ -6,7 +6,7 @@ import com.fabio.model.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.Mockito;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.*;
@@ -20,27 +20,25 @@ class DashboardServletTest {
 
     private DashboardServlet servlet;
 
-    @Mock
     private PizzeriaDAO dao;
-
-    @Mock
     private HttpServletRequest req;
-
-    @Mock
     private HttpServletResponse resp;
-
-    @Mock
     private HttpSession session;
-
-    @Mock
     private RequestDispatcher dispatcher;
 
     @BeforeEach
     void setup() throws Exception {
-        MockitoAnnotations.openMocks(this);
+
+        // creo mock MANUALMENTE (evitiamo problemi annotation)
+        dao = mock(PizzeriaDAO.class);
+        req = mock(HttpServletRequest.class);
+        resp = mock(HttpServletResponse.class);
+        session = mock(HttpSession.class);
+        dispatcher = mock(RequestDispatcher.class);
 
         servlet = new DashboardServlet();
 
+        // 🔥 injection DAO mock
         Field field = DashboardServlet.class.getDeclaredField("dao");
         field.setAccessible(true);
         field.set(servlet, dao);
@@ -55,10 +53,8 @@ class DashboardServletTest {
         when(req.getSession(false)).thenReturn(session);
         when(session.getAttribute("user")).thenReturn(u);
 
-        // 👉 QUI ORA FUNZIONA perché dao è davvero mock
         when(dao.findAllImpasti()).thenReturn(List.of(new Impasto("Napoli")));
         when(dao.findAllIngredienti()).thenReturn(List.of(new Ingrediente("Mozzarella")));
-        when(dao.findAllbyUtenteId(1)).thenReturn(List.of());
 
         when(req.getRequestDispatcher("dashboard.jsp")).thenReturn(dispatcher);
 
