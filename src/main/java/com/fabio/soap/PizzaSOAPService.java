@@ -9,7 +9,15 @@ import jakarta.jws.WebService;
 @WebService
 public class PizzaSOAPService {
 
-    private PizzeriaDAO dao = new PizzeriaDAO();
+    private PizzeriaDAO dao;
+    
+    public PizzaSOAPService() {
+        this.dao = new PizzeriaDAO();
+    }
+
+    public PizzaSOAPService(PizzeriaDAO dao) {
+        this.dao = dao;
+    }
 
     // CREA PIZZA (SOAP)
     @WebMethod

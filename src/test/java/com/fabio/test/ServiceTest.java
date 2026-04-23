@@ -11,26 +11,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
 
-    @Test
-    void testAddPizza() {
-        PizzeriaDAO dao = mock(PizzeriaDAO.class);
-        Service service = new Service(dao);
+	@Test
+	void testAddPizza() {
+	    PizzeriaDAO dao = mock(PizzeriaDAO.class);
+	    Service service = new Service(dao);
 
-        Pizza p = new Pizza();
-        when(dao.addPizza(p)).thenReturn(p);
+	    Pizza p = new Pizza();
 
-        Pizza result = service.addPizza(p);
+	    when(dao.addPizza(p)).thenReturn(p);
 
-        assertEquals(p, result);
-    }
+	    Pizza result = service.addPizza(p);
 
-    @Test
-    void testDeletePizza() {
-        PizzeriaDAO dao = mock(PizzeriaDAO.class);
-        Service service = new Service(dao);
+	    assertEquals(p, result);
 
-        service.deletePizza(1);
+	    verify(dao).addPizza(p);
+	}
 
-        verify(dao).deletePizza(1);
-    }
+	@Test
+	void testDeletePizza() {
+	    PizzeriaDAO dao = mock(PizzeriaDAO.class);
+	    Service service = new Service(dao);
+
+	    service.deletePizza(1);
+
+	    verify(dao).deletePizza(1);
+	}
 }

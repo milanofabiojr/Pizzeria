@@ -7,22 +7,30 @@ import com.fabio.soap.PizzaSOAPService;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class PizzaSOAPServiceTest {
+	@Test
+	void testCreaPizza() {
+	    PizzeriaDAO dao = mock(PizzeriaDAO.class);
+	    PizzaSOAPService service = new PizzaSOAPService(dao);
 
-    @Test
-    void testCreaPizza() {
-        PizzeriaDAO dao = mock(PizzeriaDAO.class);
-        PizzaSOAPService service = new PizzaSOAPService();
+	    Pizza p = new Pizza();
+	    p.setId(10);
 
-        Pizza p = new Pizza();
-        p.setId(10);
+	    // inject via reflection (necessario qui)
+	    try {
+	        java.lang.reflect.Field field = PizzaSOAPService.class.getDeclaredField("dao");
+	        field.setAccessible(true);
+	        field.set(service, dao);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    }
 
-        service = spy(service);
-        doReturn(dao).when(service).getClass(); // semplificazione concettuale
+	    int id = service.creaPizza(p);
 
-        service.creaPizza(p);
-
-        verify(dao).save(p);
-    }
+	    verify(dao).save(p);
+	    assertEquals(10, id);
+	}
 }
