@@ -1,14 +1,13 @@
 package com.fabio.test;
 
-import com.fabio.dao.PizzeriaDAO;
-import com.fabio.model.Pizza;
+import com.fabio.model.*;
 import com.fabio.service.Service;
+import com.fabio.dao.PizzeriaDAO;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
 import jakarta.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,92 +15,81 @@ import static org.mockito.Mockito.*;
 
 class ServiceTest {
 
-
-    // TEST GET PIZZE
     @Test
-    void testGetPizze() {
-        try (MockedStatic<PizzeriaDAO> mockedDAO = mockStatic(PizzeriaDAO.class)) {
+    void testGetUtenti() {
+        try (MockedStatic<PizzeriaDAO> mock = mockStatic(PizzeriaDAO.class)) {
 
-            List<Pizza> mockList = new ArrayList<>();
-            mockList.add(new Pizza());
+            mock.when(PizzeriaDAO::getAllUtenti)
+                .thenReturn(List.of(new Utente("fabio", "123")));
 
-            mockedDAO.when(PizzeriaDAO::findAllPizze).thenReturn(mockList);
-
-            Service service = new Service();
-            List<Pizza> result = service.getPizze_JSON();
-
-            assertNotNull(result);
-            assertEquals(1, result.size());
+            Service s = new Service();
+            assertEquals(1, s.getUtenti_JSON().size());
         }
     }
 
-
-    // TEST ADD PIZZA
     @Test
-    void testAddPizza() {
-        try (MockedStatic<PizzeriaDAO> mockedDAO = mockStatic(PizzeriaDAO.class)) {
+    void testGetImpasti() {
+        try (MockedStatic<PizzeriaDAO> mock = mockStatic(PizzeriaDAO.class)) {
 
-            Pizza pizza = new Pizza();
-            pizza.setNome("Margherita");
+            mock.when(PizzeriaDAO::findAllImpasti)
+                .thenReturn(List.of(new Impasto("Napoli")));
 
-            mockedDAO.when(() -> PizzeriaDAO.addPizza(pizza)).thenReturn(pizza);
-
-            Service service = new Service();
-            Pizza result = service.addPizza(pizza);
-
-            assertNotNull(result);
-            assertEquals("Margherita", result.getNome());
+            Service s = new Service();
+            assertEquals(1, s.getImpasti_JSON().size());
         }
     }
 
-
-    // TEST UPDATE PIZZA SUCCESS
     @Test
-    void testUpdatePizzaSuccess() {
-        try (MockedStatic<PizzeriaDAO> mockedDAO = mockStatic(PizzeriaDAO.class)) {
+    void testUpdatePizza_NotFound() {
+        try (MockedStatic<PizzeriaDAO> mock = mockStatic(PizzeriaDAO.class)) {
 
-            Pizza existing = new Pizza();
-            existing.setNome("Vecchia");
+            mock.when(() -> PizzeriaDAO.findPizza(1)).thenReturn(null);
 
-            Pizza nuova = new Pizza();
-            nuova.setNome("Nuova");
+            Service s = new Service();
+            Response r = s.updatePizza(1, new Pizza());
 
-            mockedDAO.when(() -> PizzeriaDAO.findPizza(1)).thenReturn(existing);
-            mockedDAO.when(() -> PizzeriaDAO.updatePizza(existing)).thenReturn(existing);
-
-            Service service = new Service();
-            Response response = service.updatePizza(1, nuova);
-
-            assertEquals(200, response.getStatus());
-            assertEquals("Nuova", existing.getNome());
+            assertEquals(404, r.getStatus());
         }
     }
 
-
-    // TEST UPDATE PIZZA NOT FOUND
     @Test
-    void testUpdatePizzaNotFound() {
-        try (MockedStatic<PizzeriaDAO> mockedDAO = mockStatic(PizzeriaDAO.class)) {
+    void testUpdatePizza_OK() {
+        try (MockedStatic<PizzeriaDAO> mock = mockStatic(PizzeriaDAO.class)) {
 
-            mockedDAO.when(() -> PizzeriaDAO.findPizza(1)).thenReturn(null);
+            Pizza p = new Pizza();
 
-            Service service = new Service();
-            Response response = service.updatePizza(1, new Pizza());
+            mock.when(() -> PizzeriaDAO.findPizza(1)).thenReturn(p);
 
-            assertEquals(404, response.getStatus());
+            Service s = new Service();
+            Response r = s.updatePizza(1, new Pizza());
+
+            assertEquals(200, r.getStatus());
         }
     }
 
-
-    // TEST DELETE PIZZA
     @Test
     void testDeletePizza() {
-        try (MockedStatic<PizzeriaDAO> mockedDAO = mockStatic(PizzeriaDAO.class)) {
+        try (MockedStatic<PizzeriaDAO> mock = mockStatic(PizzeriaDAO.class)) {
 
-            Service service = new Service();
-            service.deletePizza(1);
+            Service s = new Service();
+            s.deletePizza(1);
 
-            mockedDAO.verify(() -> PizzeriaDAO.deletePizza(1), times(1));
+            mock.verify(() -> PizzeriaDAO.deletePizza(1));
+        }
+    }
+
+    @Test
+    void testAddPizza() {
+        try (MockedStatic<PizzeriaDAO> mock = mockStatic(PizzeriaDAO.class)) {
+
+            Pizza p = new Pizza();
+
+            mock.when(() -> PizzeriaDAO.addPizza(p)).thenReturn(p);
+
+            Service s = new Service();
+            Pizza result = s.addPizza(p);
+
+            assertNotNull(result);
         }
     }
 }

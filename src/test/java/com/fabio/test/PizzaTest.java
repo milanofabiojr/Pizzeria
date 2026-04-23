@@ -1,38 +1,31 @@
 package com.fabio.test;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.fabio.model.*;
-
-import java.util.Arrays;
+import org.junit.jupiter.api.Test;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PizzaTest {
 
     @Test
-    void shouldSetAndGetPizzaFieldsCorrectly() {
-        Impasto impasto = new Impasto("Classico");
-        Utente utente = new Utente("fabio", "123");
+    void testPizza() {
+        Impasto impasto = new Impasto("Napoli");
+        Utente u = new Utente("fabio", "123");
 
-        Pizza pizza = new Pizza();
-        pizza.setNome("Margherita");
-        pizza.setImpasto(impasto);
-        pizza.setUtente(utente);
+        Pizza p = new Pizza("Margherita", impasto, u);
 
-        assertEquals("Margherita", pizza.getNome());
-        assertEquals(impasto, pizza.getImpasto());
-        assertEquals(utente, pizza.getUtente());
+        assertEquals("Margherita", p.getNome());
+        assertEquals(impasto, p.getImpasto());
+        assertEquals(u, p.getUtente());
     }
 
     @Test
-    void shouldHandleIngredientiCorrectly() {
-        Pizza pizza = new Pizza();
+    void testIngredienti() {
+        Pizza p = new Pizza();
+        Ingrediente i = new Ingrediente("Mozzarella");
 
-        Ingrediente i1 = new Ingrediente("Mozzarella");
-        Ingrediente i2 = new Ingrediente("Pomodoro");
+        p.setIngredienti(List.of(i));
 
-        pizza.setIngredienti(Arrays.asList(i1, i2));
-
-        assertEquals(2, pizza.getIngredienti().size());
+        assertEquals(1, p.getIngredienti().size());
     }
 }

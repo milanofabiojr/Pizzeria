@@ -1,25 +1,20 @@
 package com.fabio.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-
-import static org.mockito.Mockito.*;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.servlet.http.*;
-import jakarta.servlet.RequestDispatcher;
-
 import com.fabio.main.DashboardServlet;
 import com.fabio.dao.PizzeriaDAO;
-import com.fabio.model.Impasto;
-import com.fabio.model.Ingrediente;
-import com.fabio.model.Utente;
+import com.fabio.model.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.*;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.*;
+
+import java.lang.reflect.Field;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 class DashboardServletTest {
 
@@ -43,18 +38,29 @@ class DashboardServletTest {
 
     @BeforeEach
     void setup() throws Exception {
-        Field field = DashboardServlet.class.getDeclaredField("dao");
-        field.setAccessible(true);
-        field.set(servlet, dao);
+        MockitoAnnotations.openMocks(this);
+
+        Field f = DashboardServlet.class.getDeclaredField("dao");
+        f.setAccessible(true);
+        f.set(servlet, dao);
+    }
+
+    @Test
+    void testRedirectIfNotLogged() throws Exception {
+        when(req.getSession(false)).thenReturn(null);
+
+        servlet.doGet(req, resp);
+
+        verify(resp).sendRedirect(contains("login"));
     }
 
     @Test
     void testLoadDashboard() throws Exception {
-        Utente user = new Utente();
-        user.setId(1);
+        Utente u = new Utente();
+        u.setId(1);
 
         when(req.getSession(false)).thenReturn(session);
-        when(session.getAttribute("user")).thenReturn(user);
+        when(session.getAttribute("user")).thenReturn(u);
 
         when(dao.findAllImpasti()).thenReturn(List.of(new Impasto("Napoli")));
         when(dao.findAllIngredienti()).thenReturn(List.of(new Ingrediente("Mozzarella")));
@@ -65,5 +71,20 @@ class DashboardServletTest {
         servlet.doGet(req, resp);
 
         verify(dispatcher).forward(req, resp);
+    }
+
+    @Test
+    void testDeletePizza() throws Exception {
+        Utente u = new Utente();
+        u.setId(1);
+
+        when(req.getSession(false)).thenReturn(session);
+        when(session.getAttribute("user")).thenReturn(u);
+        when(req.getParameter("deleteId")).thenReturn("1");
+
+        servlet.doPost(req, resp);
+
+        verify(dao).delete(1);
+        verify(resp).sendRedirect(contains("dashboard"));
     }
 }
