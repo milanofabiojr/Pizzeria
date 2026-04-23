@@ -110,12 +110,9 @@ class PizzeriaDAOTest {
     @Test
     void testFindAllImpasti() {
 
-        EntityManager em = mock(EntityManager.class);
-        EntityManagerFactory emf = mock(EntityManagerFactory.class);
 
         TypedQuery query = mock(TypedQuery.class);
 
-        try (MockedStatic<JPAUtil> mocked = mockStatic(JPAUtil.class)) {
 
             mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
             when(emf.createEntityManager()).thenReturn(em);
@@ -126,6 +123,5 @@ class PizzeriaDAOTest {
             List<Impasto> result = dao.findAllImpasti();
 
             assertNotNull(result);
-        }
     }
 }
