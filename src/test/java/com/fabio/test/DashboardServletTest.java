@@ -56,4 +56,42 @@ class DashboardServletTest {
 
         verify(resp).sendRedirect(anyString());
     }
+    
+    @Test
+    void testCreatePizza() throws Exception {
+
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        DashboardServlet servlet = new DashboardServlet(dao);
+
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
+
+        Utente u = new Utente("u", "p");
+        u.setId(1);
+
+        Impasto impasto = new Impasto();
+        impasto.setId(1);
+
+        Ingrediente ing = new Ingrediente();
+        ing.setId(1);
+
+        when(req.getSession(false)).thenReturn(session);
+        when(session.getAttribute("user")).thenReturn(u);
+
+        when(req.getParameter("deleteId")).thenReturn(null);
+        when(req.getParameter("nomePizza")).thenReturn("Margherita");
+        when(req.getParameter("impasto")).thenReturn("1");
+        when(req.getParameterValues("ingredienti"))
+                .thenReturn(new String[]{"1"});
+
+        when(dao.findImpasto(1)).thenReturn(impasto);
+        when(dao.findIngrediente(1)).thenReturn(ing);
+
+        when(req.getContextPath()).thenReturn("");
+
+        servlet.doPost(req, resp);
+
+        verify(dao).save(any());
+    }
 }
