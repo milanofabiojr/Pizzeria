@@ -48,6 +48,27 @@ class ServiceTest {
     }
     
     @Test
+    void testUpdatePizzaOK() {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        
+        Pizza existing = new Pizza();
+        existing.setNome("Vecchia");
+
+        Pizza nuova = new Pizza();
+        nuova.setNome("Nuova");
+
+        when(dao.findPizza(1)).thenReturn(existing);
+
+        Service service = new Service(dao);
+
+        Response response = service.updatePizza(1, nuova);
+
+        assertEquals(200, response.getStatus());
+        assertEquals("Nuova", existing.getNome());
+        verify(dao).updatePizza(existing);
+    }
+    
+    @Test
     void testUpdatePizzaNotFound() {
         PizzeriaDAO dao = mock(PizzeriaDAO.class);
         when(dao.findPizza(1)).thenReturn(null);
