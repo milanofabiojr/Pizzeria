@@ -111,7 +111,7 @@ public class PizzeriaDAO {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
 		try {
 			return em.find(Pizza.class, id);
-		}catch (NoResultException e) {
+		} catch (NoResultException e) {
 			return null;
 		} finally {
 			em.close();
@@ -129,7 +129,14 @@ public class PizzeriaDAO {
 
 	public List<Pizza> findAllPizze() {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-			return em.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList();
+		try {
+			return em.createQuery(
+		            "SELECT DISTINCT p FROM Pizza p LEFT JOIN FETCH p.ingredienti",
+		            Pizza.class
+		        ).getResultList();
+		} finally {
+				em.close();
+		}
 	}
 
 	public List<Ingrediente> findAllIngredienti() {
@@ -144,7 +151,7 @@ public class PizzeriaDAO {
 	public Impasto findImpasto(int id) {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
 		try {
-		return em.find(Impasto.class, id);
+			return em.find(Impasto.class, id);
 		} finally {
 			em.close();
 		}
@@ -153,7 +160,7 @@ public class PizzeriaDAO {
 	public Ingrediente findIngrediente(int id) {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
 		try {
-		return em.find(Ingrediente.class, id);
+			return em.find(Ingrediente.class, id);
 		} finally {
 			em.close();
 		}
