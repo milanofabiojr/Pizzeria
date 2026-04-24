@@ -161,7 +161,6 @@ class PizzeriaDAOTest {
     void testDeletePizzaNull() {
 
 
-        Pizza p = null;
 
             mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
             when(emf.createEntityManager()).thenReturn(em);

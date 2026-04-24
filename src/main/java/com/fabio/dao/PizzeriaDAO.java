@@ -7,12 +7,9 @@ import com.fabio.model.Utente;
 import com.fabio.util.JPAUtil;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
-import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 
 public class PizzeriaDAO {

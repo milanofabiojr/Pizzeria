@@ -36,32 +36,28 @@ public class Service {
 	@Path("/utenti")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Utente> getUtenti_JSON(){
-		List<Utente> utenti = dao.getAllUtenti();
-		return utenti;
+		return dao.getAllUtenti();
 	}
 	
 	@GET
 	@Path("/impasti")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Impasto> getImpasti_JSON(){
-		List<Impasto> impasti = dao.findAllImpasti();
-		return impasti;
+		return dao.findAllImpasti();
 	}
 	
 	@GET
 	@Path("/ingredienti")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Ingrediente> getIngredienti_JSON(){
-		List<Ingrediente> ingredienti = dao.findAllIngredienti();
-		return ingredienti;
+		return dao.findAllIngredienti();
 	}
 	
 	@GET
 	@Path("/pizze")
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Pizza> getPizze_JSON(){
-		List<Pizza> pizze = dao.findAllPizze();
-		return pizze;
+		return dao.findAllPizze();
 	}
 	
 	@POST
