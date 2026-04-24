@@ -11,7 +11,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private PizzeriaDAO dao;
+    private transient PizzeriaDAO dao;
     
     public LoginServlet() {
         this.dao = new PizzeriaDAO();

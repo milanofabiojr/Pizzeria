@@ -13,7 +13,7 @@ import java.util.List;
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
-    private PizzeriaDAO dao;
+    private transient PizzeriaDAO dao;
     
     public DashboardServlet() {
         this.dao = new PizzeriaDAO();
