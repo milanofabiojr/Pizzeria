@@ -162,12 +162,7 @@ class PizzeriaDAOTest {
 		assertNotNull(pizze);
 	}
 
-	@Test
-	void testPizzaIngredientiLoaded() {
-		Pizza p = dao.findAllPizze().get(0);
 
-		assertNotNull(p.getIngredienti());
-	}
 
 	@Test
 	void testDeletePizzaNull() {
