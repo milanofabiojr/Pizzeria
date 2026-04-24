@@ -9,6 +9,10 @@ import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
@@ -78,5 +82,21 @@ class ServiceTest {
         Response response = service.updatePizza(1, new Pizza());
 
         assertEquals(404, response.getStatus());
+    }
+    
+    @Test
+    void testGetPizze() {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+
+        List<Pizza> lista = new ArrayList<>();
+        lista.add(new Pizza());
+
+        when(dao.findAllPizze()).thenReturn(lista);
+
+        Service service = new Service(dao);
+
+        List<Pizza> result = service.getPizze_JSON();
+
+        assertEquals(1, result.size());
     }
 }
