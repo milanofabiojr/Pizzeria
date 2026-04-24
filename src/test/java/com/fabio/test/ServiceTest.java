@@ -44,7 +44,7 @@ class ServiceTest {
     }
     
     @Test
-    void testDashboardServletDefaultConstructor() {
+    void testServiceDefaultConstructor() {
 
         Service servlet = new Service();
 
@@ -98,5 +98,38 @@ class ServiceTest {
         List<Pizza> result = service.getPizze_JSON();
 
         assertEquals(1, result.size());
+    }
+    
+    @Test
+    void testGetImpasti() {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        when(dao.findAllImpasti()).thenReturn(new ArrayList<>());
+
+        Service service = new Service(dao);
+        service.getImpasti_JSON();
+
+        verify(dao).findAllImpasti();
+    }
+    
+    @Test
+    void testGetIngredienti() {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        when(dao.findAllIngredienti()).thenReturn(new ArrayList<>());
+
+        Service service = new Service(dao);
+        service.getIngredienti_JSON();
+
+        verify(dao).findAllIngredienti();
+    }
+    
+    @Test
+    void testGetUtenti() {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        when(dao.getAllUtenti()).thenReturn(new ArrayList<>());
+
+        Service service = new Service(dao);
+        service.getUtenti_JSON();
+
+        verify(dao).getAllUtenti();
     }
 }

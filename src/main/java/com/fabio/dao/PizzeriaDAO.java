@@ -32,7 +32,7 @@ public class PizzeriaDAO {
         }
     }
     
-    public static List<Utente> getAllUtenti(){
+    public List<Utente> getAllUtenti(){
     	EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         return em.createQuery("SELECT u FROM Utente u", Utente.class).getResultList();
     }
