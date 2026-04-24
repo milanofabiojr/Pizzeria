@@ -12,6 +12,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 public class PizzeriaDAO {
@@ -34,8 +35,6 @@ public class PizzeriaDAO {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
 		try {
 			return em.createQuery("SELECT u FROM Utente u", Utente.class).getResultList();
-		} catch (NoResultException e) {
-			return null;
 		} finally {
 			em.close();
 		}
@@ -110,31 +109,53 @@ public class PizzeriaDAO {
 
 	public Pizza findPizza(int id) {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-		return em.find(Pizza.class, id);
+		try {
+			return em.find(Pizza.class, id);
+		}catch (NoResultException e) {
+			return null;
+		} finally {
+			em.close();
+		}
 	}
 
 	public List<Impasto> findAllImpasti() {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-		return em.createQuery("SELECT i FROM Impasto i", Impasto.class).getResultList();
+		try {
+			return em.createQuery("SELECT i FROM Impasto i", Impasto.class).getResultList();
+		} finally {
+			em.close();
+		}
 	}
 
 	public List<Pizza> findAllPizze() {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-		return em.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList();
+			return em.createQuery("SELECT p FROM Pizza p", Pizza.class).getResultList();
 	}
 
 	public List<Ingrediente> findAllIngredienti() {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
-		return em.createQuery("SELECT i FROM Ingrediente i", Ingrediente.class).getResultList();
+		try {
+			return em.createQuery("SELECT i FROM Ingrediente i", Ingrediente.class).getResultList();
+		} finally {
+			em.close();
+		}
 	}
 
 	public Impasto findImpasto(int id) {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+		try {
 		return em.find(Impasto.class, id);
+		} finally {
+			em.close();
+		}
 	}
 
 	public Ingrediente findIngrediente(int id) {
 		EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+		try {
 		return em.find(Ingrediente.class, id);
+		} finally {
+			em.close();
+		}
 	}
 }
