@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+EsercizioPizzeria,com.fabio.model,Pizza,0,60,0,0,0,19,0,12,0,12
+EsercizioPizzeria,com.fabio.model,Impasto,7,16,0,0,3,5,2,4,2,4
+EsercizioPizzeria,com.fabio.model,Ingrediente,7,16,0,0,3,5,2,4,2,4
+EsercizioPizzeria,com.fabio.model,Utente,6,33,0,0,1,11,1,8,1,8
+EsercizioPizzeria,com.fabio.main,LoginServlet,7,53,0,2,2,17,1,4,1,3
+EsercizioPizzeria,com.fabio.main,DashboardServlet,22,182,5,15,6,45,5,9,0,4
+EsercizioPizzeria,com.fabio.dao,PizzeriaDAO,94,129,2,2,27,42,9,9,7,9
+EsercizioPizzeria,com.fabio.soap,PizzaSOAPService,13,13,0,0,5,5,2,2,2,2
+EsercizioPizzeria,com.fabio.config,RestApplication,16,0,0,0,4,0,1,0,1,0
+EsercizioPizzeria,com.fabio.util,JPAUtil,3,5,0,0,1,2,1,1,1,1
+EsercizioPizzeria,com.fabio.service,Service,0,79,0,2,0,25,0,10,0,9

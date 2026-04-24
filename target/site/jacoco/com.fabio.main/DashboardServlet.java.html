@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DashboardServlet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EsercizioPizzeria</a> &gt; <a href="index.source.html" class="el_package">com.fabio.main</a> &gt; <span class="el_source">DashboardServlet.java</span></div><h1>DashboardServlet.java</h1><pre class="source lang-java linenums">package com.fabio.main;
+
+import com.fabio.dao.PizzeriaDAO;
+import com.fabio.model.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet(&quot;/dashboard&quot;)
+public class DashboardServlet extends HttpServlet {
+
+    private PizzeriaDAO dao;
+    
+<span class="fc" id="L18">    public DashboardServlet() {</span>
+<span class="fc" id="L19">        this.dao = new PizzeriaDAO();</span>
+<span class="fc" id="L20">    }</span>
+
+<span class="fc" id="L22">    public DashboardServlet(PizzeriaDAO dao) {</span>
+<span class="fc" id="L23">        this.dao = dao;</span>
+<span class="fc" id="L24">    }</span>
+
+    // MOSTRA DASHBOARD
+    @Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+<span class="fc" id="L31">        HttpSession session = req.getSession(false);</span>
+
+        // BLOCCO ACCESSO SE NON LOGGATO
+<span class="fc bfc" id="L34" title="All 4 branches covered.">        if (session == null || session.getAttribute(&quot;user&quot;) == null) {</span>
+<span class="fc" id="L35">            resp.sendRedirect(req.getContextPath() + &quot;/login&quot;);</span>
+<span class="fc" id="L36">            return;</span>
+        }
+
+<span class="fc" id="L39">        Utente u = (Utente) session.getAttribute(&quot;user&quot;);</span>
+
+        // CARICO DATI PER LA JSP
+<span class="fc" id="L42">        List&lt;Impasto&gt; impasti = dao.findAllImpasti();</span>
+<span class="fc" id="L43">        List&lt;Ingrediente&gt; ingredienti = dao.findAllIngredienti();</span>
+<span class="fc" id="L44">        List&lt;Pizza&gt; pizze = dao.findAllbyUtenteId(u.getId());</span>
+
+<span class="fc" id="L46">        req.setAttribute(&quot;impasti&quot;, impasti);</span>
+<span class="fc" id="L47">        req.setAttribute(&quot;ingredienti&quot;, ingredienti);</span>
+<span class="fc" id="L48">        req.setAttribute(&quot;pizze&quot;, pizze);</span>
+
+<span class="fc" id="L50">        req.getRequestDispatcher(&quot;dashboard.jsp&quot;).forward(req, resp);</span>
+<span class="fc" id="L51">    }</span>
+
+    // CREA PIZZA E DELETE PIZZA
+    @Override
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+<span class="fc" id="L58">        HttpSession session = req.getSession(false);</span>
+
+        // SICUREZZA SESSIONE
+<span class="fc bfc" id="L61" title="All 4 branches covered.">        if (session == null || session.getAttribute(&quot;user&quot;) == null) {</span>
+<span class="fc" id="L62">            resp.sendRedirect(req.getContextPath() + &quot;/login&quot;);</span>
+<span class="fc" id="L63">            return;</span>
+        }
+
+<span class="fc" id="L66">        Utente u = (Utente) session.getAttribute(&quot;user&quot;);</span>
+
+        // ELIMINAZIONE PIZZA
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (req.getParameter(&quot;deleteId&quot;) != null) {</span>
+
+<span class="nc" id="L71">            int idPizza = Integer.valueOf(req.getParameter(&quot;deleteId&quot;));</span>
+<span class="nc" id="L72">            dao.delete(idPizza);</span>
+
+<span class="nc" id="L74">            resp.sendRedirect(req.getContextPath() + &quot;/dashboard&quot;);</span>
+<span class="nc" id="L75">            return;</span>
+        }
+
+        // CREAZIONE PIZZA
+<span class="fc" id="L79">        String nomePizza = req.getParameter(&quot;nomePizza&quot;);</span>
+<span class="fc" id="L80">        String idImpasto = req.getParameter(&quot;impasto&quot;);</span>
+<span class="fc" id="L81">        String[] idIngredienti = req.getParameterValues(&quot;ingredienti&quot;);</span>
+
+        // VALIDAZIONE BASE
+<span class="pc bpc" id="L84" title="3 of 6 branches missed.">        if (nomePizza == null || idImpasto == null || nomePizza.isEmpty()) {</span>
+<span class="nc" id="L85">            resp.sendRedirect(req.getContextPath() + &quot;/dashboard&quot;);</span>
+<span class="nc" id="L86">            return;</span>
+        }
+
+<span class="fc" id="L89">        int id_Impasto = Integer.valueOf(idImpasto);</span>
+<span class="fc" id="L90">        Impasto impasto = dao.findImpasto(id_Impasto);</span>
+
+<span class="fc" id="L92">        Pizza pizza = new Pizza();</span>
+<span class="fc" id="L93">        pizza.setNome(nomePizza);</span>
+<span class="fc" id="L94">        pizza.setImpasto(impasto);</span>
+<span class="fc" id="L95">        pizza.setUtente(u);</span>
+
+<span class="fc" id="L97">        List&lt;Ingrediente&gt; listaIngredienti = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (idIngredienti != null) {</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            for (String id : idIngredienti) {</span>
+<span class="fc" id="L100">                int ingrId = Integer.valueOf(id);</span>
+<span class="fc" id="L101">                Ingrediente ingr = dao.findIngrediente(ingrId);</span>
+<span class="fc" id="L102">                listaIngredienti.add(ingr);</span>
+            }
+        }
+
+<span class="fc" id="L106">        pizza.setIngredienti(listaIngredienti);</span>
+
+        // SALVATAGGIO DB
+<span class="fc" id="L109">        dao.save(pizza);</span>
+
+        // REFRESH DASHBOARD
+<span class="fc" id="L112">        resp.sendRedirect(req.getContextPath() + &quot;/dashboard&quot;);</span>
+<span class="fc" id="L113">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

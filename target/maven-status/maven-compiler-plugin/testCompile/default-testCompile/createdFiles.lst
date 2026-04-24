@@ -1,0 +1,10 @@
+com\fabio\test\PizzaSOAPServiceTest.class
+com\fabio\test\DashboardServletTest.class
+com\fabio\test\PizzaTest.class
+com\fabio\test\IngredienteTest.class
+com\fabio\test\LoginServletTest.class
+com\fabio\test\PizzeriaDAOTest.class
+com\fabio\test\UtenteTest.class
+com\fabio\test\JPAUtilTest.class
+com\fabio\test\ServiceTest.class
+com\fabio\test\ImpastoTest.class

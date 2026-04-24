@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.fabio.test.JPAUtilTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.577 s -- in com.fabio.test.JPAUtilTest
