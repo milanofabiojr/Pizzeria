@@ -3,6 +3,9 @@ package com.fabio.test;
 import com.fabio.dao.PizzeriaDAO;
 import com.fabio.model.Pizza;
 import com.fabio.service.Service;
+
+import jakarta.ws.rs.core.Response;
+
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
@@ -42,5 +45,17 @@ class ServiceTest {
         Service servlet = new Service();
 
         assertNotNull(servlet);
+    }
+    
+    @Test
+    void testUpdatePizzaNotFound() {
+        PizzeriaDAO dao = mock(PizzeriaDAO.class);
+        when(dao.findPizza(1)).thenReturn(null);
+
+        Service service = new Service(dao);
+
+        Response response = service.updatePizza(1, new Pizza());
+
+        assertEquals(404, response.getStatus());
     }
 }

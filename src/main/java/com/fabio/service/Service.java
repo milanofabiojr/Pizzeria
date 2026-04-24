@@ -2,6 +2,7 @@ package com.fabio.service;
 
 import java.util.List;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -33,7 +34,7 @@ public class Service {
 	
 	@GET
 	@Path("/utenti")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON})
 	public List<Utente> getUtenti_JSON(){
 		List<Utente> utenti = dao.getAllUtenti();
 		return utenti;
@@ -41,7 +42,7 @@ public class Service {
 	
 	@GET
 	@Path("/impasti")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON})
 	public List<Impasto> getImpasti_JSON(){
 		List<Impasto> impasti = dao.findAllImpasti();
 		return impasti;
@@ -49,7 +50,7 @@ public class Service {
 	
 	@GET
 	@Path("/ingredienti")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON})
 	public List<Ingrediente> getIngredienti_JSON(){
 		List<Ingrediente> ingredienti = dao.findAllIngredienti();
 		return ingredienti;
@@ -57,21 +58,22 @@ public class Service {
 	
 	@GET
 	@Path("/pizze")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON})
 	public List<Pizza> getPizze_JSON(){
 		List<Pizza> pizze = dao.findAllPizze();
 		return pizze;
 	}
 	
 	@POST
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes(MediaType.APPLICATION_JSON)
+    @Produces({ MediaType.APPLICATION_JSON })
     public Pizza addPizza(Pizza p) {
         return dao.addPizza(p);
     }
 	
 	@PUT
 	@Path("/{id}")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON})
     public Response updatePizza(@PathParam("id") int id, Pizza nuovap) {
 		Pizza p = dao.findPizza(id);
 		if (p == null) {
@@ -87,7 +89,7 @@ public class Service {
 	
 	@DELETE
     @Path("/{id}")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.APPLICATION_JSON })
     public void deletePizza(@PathParam("id") int id) {
        dao.deletePizza(id);
     }
