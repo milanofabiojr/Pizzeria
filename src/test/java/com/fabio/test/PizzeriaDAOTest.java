@@ -15,197 +15,196 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PizzeriaDAOTest {
 
-	private PizzeriaDAO dao;
+    private PizzeriaDAO dao;
 
-	private EntityManagerFactory emf;
-	private EntityManager em;
-	private EntityTransaction tx;
+    private EntityManagerFactory emf;
+    private EntityManager em;
+    private EntityTransaction tx;
 
-	private MockedStatic<JPAUtil> mocked;
+    private MockedStatic<JPAUtil> mocked;
 
-	@BeforeEach
-	void setUp() {
-		dao = new PizzeriaDAO();
+    @BeforeEach
+    void setUp() {
+        dao = new PizzeriaDAO();
 
-		emf = mock(EntityManagerFactory.class);
-		em = mock(EntityManager.class);
-		tx = mock(EntityTransaction.class);
+        emf = mock(EntityManagerFactory.class);
+        em = mock(EntityManager.class);
+        tx = mock(EntityTransaction.class);
 
-		mocked = mockStatic(JPAUtil.class);
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+        mocked = mockStatic(JPAUtil.class);
+        mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
 
-		when(emf.createEntityManager()).thenReturn(em);
-		when(em.getTransaction()).thenReturn(tx);
-	}
+        when(emf.createEntityManager()).thenReturn(em);
+        when(em.getTransaction()).thenReturn(tx);
+    }
 
-	@AfterEach
-	void tearDown() {
-		mocked.close();
-	}
+    @AfterEach
+    void tearDown() {
+        mocked.close();
+    }
 
-	@Test
-	void testLoginSuccess() {
-		Utente u = new Utente("user", "pass");
+    @Test
+    void testLoginSuccess() {
+        Utente u = new Utente("user", "pass");
 
-		TypedQuery query = mock(TypedQuery.class);
+        TypedQuery query = mock(TypedQuery.class);
 
-		when(em.createQuery(anyString(), eq(Utente.class))).thenReturn(query);
-		when(query.setParameter(anyString(), any())).thenReturn(query);
-		when(query.getSingleResult()).thenReturn(u);
+        when(em.createQuery(anyString(), eq(Utente.class))).thenReturn(query);
+        when(query.setParameter(anyString(), any())).thenReturn(query);
+        when(query.getSingleResult()).thenReturn(u);
 
-		Utente result = dao.login("user", "pass");
+        Utente result = dao.login("user", "pass");
 
-		assertNotNull(result);
-		assertEquals("user", result.getUsername());
-	}
+        assertNotNull(result);
+        assertEquals("user", result.getUsername());
+    }
 
-	@Test
-	void testLoginFail() {
-		TypedQuery query = mock(TypedQuery.class);
+    @Test
+    void testLoginFail() {
+        TypedQuery query = mock(TypedQuery.class);
 
-		when(em.createQuery(anyString(), eq(Utente.class))).thenReturn(query);
-		when(query.setParameter(anyString(), any())).thenReturn(query);
-		when(query.getSingleResult()).thenThrow(new jakarta.persistence.NoResultException());
+        when(em.createQuery(anyString(), eq(Utente.class))).thenReturn(query);
+        when(query.setParameter(anyString(), any())).thenReturn(query);
+        when(query.getSingleResult()).thenThrow(new jakarta.persistence.NoResultException());
 
-		Utente result = dao.login("x", "y");
+        Utente result = dao.login("x", "y");
 
-		assertNull(result);
-	}
+        assertNull(result);
+    }
 
-	@Test
-	void testSavePizza() {
-		Pizza p = new Pizza();
-		dao.save(p);
+    @Test
+    void testSavePizza() {
+        Pizza p = new Pizza();
+        dao.save(p);
 
-		verify(em).persist(p);
-		verify(tx).begin();
-		verify(tx).commit();
-	}
+        verify(em).persist(p);
+        verify(tx).begin();
+        verify(tx).commit();
+    }
 
-	@Test
-	void testDeletePizza() {
-		Pizza p = new Pizza();
-		when(em.find(Pizza.class, 1)).thenReturn(p);
+    @Test
+    void testDeletePizza() {
+        Pizza p = new Pizza();
+        when(em.find(Pizza.class, 1)).thenReturn(p);
 
-		dao.delete(1);
+        dao.delete(1);
 
-		verify(em).remove(p);
-	}
+        verify(em).remove(p);
+    }
+    
+    @Test
+    void testFindPizza() {
 
-	@Test
-	void testFindPizza() {
+        Pizza p = new Pizza();
 
-		Pizza p = new Pizza();
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
 
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
-		when(emf.createEntityManager()).thenReturn(em);
+            when(em.find(Pizza.class, 1)).thenReturn(p);
 
-		when(em.find(Pizza.class, 1)).thenReturn(p);
+            Pizza result = dao.findPizza(1);
 
-		Pizza result = dao.findPizza(1);
+            assertNotNull(result);
+    }
+    
+    @Test
+    void testFindAllImpasti() {
 
-		assertNotNull(result);
-	}
 
-	@Test
-	void testFindAllImpasti() {
+        TypedQuery query = mock(TypedQuery.class);
 
-		TypedQuery query = mock(TypedQuery.class);
 
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
-		when(emf.createEntityManager()).thenReturn(em);
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
 
-		when(em.createQuery(anyString(), eq(Impasto.class))).thenReturn(query);
-		when(query.getResultList()).thenReturn(List.of());
+            when(em.createQuery(anyString(), eq(Impasto.class))).thenReturn(query);
+            when(query.getResultList()).thenReturn(List.of());
 
-		List<Impasto> result = dao.findAllImpasti();
+            List<Impasto> result = dao.findAllImpasti();
 
-		assertNotNull(result);
-	}
+            assertNotNull(result);
+    }
+    
+    @Test
+    void testUpdatePizza() {
 
-	@Test
-	void testUpdatePizza() {
+        Pizza p = new Pizza();
 
-		Pizza p = new Pizza();
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
+            when(em.getTransaction()).thenReturn(tx);
 
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
-		when(emf.createEntityManager()).thenReturn(em);
-		when(em.getTransaction()).thenReturn(tx);
+            dao.updatePizza(p);
 
-		dao.updatePizza(p);
+            verify(em).merge(p);
+            verify(tx).begin();
+            verify(tx).commit();
+    }
+    
+    @Test
+    void testFindAllPizze() {
 
-		verify(em).merge(p);
-		verify(tx).begin();
-		verify(tx).commit();
-	}
+        TypedQuery query = mock(TypedQuery.class);
 
-	@Test
-	void testFindAllPizze() {
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
 
-		TypedQuery query = mock(TypedQuery.class);
+            when(em.createQuery(anyString(), eq(Pizza.class))).thenReturn(query);
+            when(query.getResultList()).thenReturn(List.of());
 
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
-		when(emf.createEntityManager()).thenReturn(em);
+            List<Pizza> result = dao.findAllPizze();
 
-		when(em.createQuery(anyString(), eq(Pizza.class))).thenReturn(query);
-		when(query.getResultList()).thenReturn(List.of());
+            assertNotNull(result);
+    }
+    
+    @Test
+    void testDeletePizzaNull() {
 
-		List<Pizza> result = dao.findAllPizze();
 
-		assertNotNull(result);
-	}
 
-	@Test
-	void testFindAllPizze_notEmpty() {
-		List<Pizza> pizze = dao.findAllPizze();
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
 
-		assertNotNull(pizze);
-	}
+            when(em.find(Pizza.class, 1)).thenReturn(null);
 
+            dao.deletePizza(1);
 
+            verify(em, never()).remove(any());
+    }
+    
+    @Test
+    void testFindAllIngredienti() {
 
-	@Test
-	void testDeletePizzaNull() {
 
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
-		when(emf.createEntityManager()).thenReturn(em);
+        TypedQuery query = mock(TypedQuery.class);
 
-		when(em.find(Pizza.class, 1)).thenReturn(null);
 
-		dao.deletePizza(1);
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
 
-		verify(em, never()).remove(any());
-	}
+            when(em.createQuery(anyString(), eq(Ingrediente.class))).thenReturn(query);
+            when(query.getResultList()).thenReturn(List.of());
 
-	@Test
-	void testFindAllIngredienti() {
+            List<Ingrediente> result = dao.findAllIngredienti();
 
-		TypedQuery query = mock(TypedQuery.class);
+            assertNotNull(result);
+    }
+    
+    @Test
+    void testGetAllUtenti() {
 
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
-		when(emf.createEntityManager()).thenReturn(em);
 
-		when(em.createQuery(anyString(), eq(Ingrediente.class))).thenReturn(query);
-		when(query.getResultList()).thenReturn(List.of());
+        TypedQuery query = mock(TypedQuery.class);
 
-		List<Ingrediente> result = dao.findAllIngredienti();
 
-		assertNotNull(result);
-	}
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
 
-	@Test
-	void testGetAllUtenti() {
+            when(em.createQuery(anyString(), eq(Utente.class))).thenReturn(query);
+            when(query.getResultList()).thenReturn(List.of());
 
-		TypedQuery query = mock(TypedQuery.class);
+            List<Utente> result = dao.getAllUtenti();
 
-		mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
-		when(emf.createEntityManager()).thenReturn(em);
-
-		when(em.createQuery(anyString(), eq(Utente.class))).thenReturn(query);
-		when(query.getResultList()).thenReturn(List.of());
-
-		List<Utente> result = dao.getAllUtenti();
-
-		assertNotNull(result);
-	}
+            assertNotNull(result);
+    }
 }
