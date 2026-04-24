@@ -172,4 +172,40 @@ class PizzeriaDAOTest {
 
             verify(em, never()).remove(any());
     }
+    
+    @Test
+    void testFindAllIngredienti() {
+
+
+        TypedQuery query = mock(TypedQuery.class);
+
+
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
+
+            when(em.createQuery(anyString(), eq(Ingrediente.class))).thenReturn(query);
+            when(query.getResultList()).thenReturn(List.of());
+
+            List<Ingrediente> result = dao.findAllIngredienti();
+
+            assertNotNull(result);
+    }
+    
+    @Test
+    void testGetAllUtenti() {
+
+
+        TypedQuery query = mock(TypedQuery.class);
+
+
+            mocked.when(JPAUtil::getEntityManagerFactory).thenReturn(emf);
+            when(emf.createEntityManager()).thenReturn(em);
+
+            when(em.createQuery(anyString(), eq(Utente.class))).thenReturn(query);
+            when(query.getResultList()).thenReturn(List.of());
+
+            List<Utente> result = dao.getAllUtenti();
+
+            assertNotNull(result);
+    }
 }
