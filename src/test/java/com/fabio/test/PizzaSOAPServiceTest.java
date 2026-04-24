@@ -33,4 +33,10 @@ class PizzaSOAPServiceTest {
 	    verify(dao).save(p);
 	    assertEquals(10, id);
 	}
+	
+	@Test
+	void testPizzaSOAPServiceInit() {
+	    PizzaSOAPService service = new PizzaSOAPService();
+	    assertNotNull(service);
+	}
 }
